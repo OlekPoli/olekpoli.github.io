@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Vault</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #fafafa;
+      color: #111;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .box { max-width: 420px; width: 100%; }
+    .vault-container { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 18px; font-weight: 500; margin: 0 0 20px; color: #333; text-align: center; }
+    h2 { font-size: 16px; font-weight: 600; margin: 0; }
+    input, button {
+      font-family: inherit;
+      font-size: 15px;
+    }
+    input[type=text], input[type=password] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    input:focus { outline: none; border-color: #111; }
+    button {
+      padding: 10px 18px;
+      background: #111;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    button:hover { background: #333; }
+    button:disabled { background: #999; cursor: wait; }
+    button.secondary { background: #fff; color: #111; border: 1px solid #ccc; }
+    button.secondary:hover { background: #f0f0f0; }
+    button.danger { background: #c33; }
+    button.danger:hover { background: #a22; }
+    .full-width { width: 100%; }
+    .error { color: #c00; font-size: 14px; margin-top: 12px; min-height: 18px; text-align: center; }
+    .setup-banner {
+      background: #fff8dc;
+      border: 1px solid #d4a017;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #5c4400;
+      line-height: 1.5;
+    }
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 11px;
+      overflow-wrap: break-word;
+      word-break: break-all;
+      white-space: pre-wrap;
+      margin: 12px 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .hint { font-size: 13px; color: #666; line-height: 1.5; margin: 8px 0; }
+    code { background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #eee;
+    }
+    .toolbar-actions { display: flex; gap: 8px; }
+    .upload-zone {
+      border: 2px dashed #ccc;
+      border-radius: 12px;
+      padding: 32px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-bottom: 20px;
+      color: #666;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: #111;
+      background: #f0f0f0;
+      color: #111;
+    }
+    .upload-zone input { display: none; }
+    .file-list { list-style: none; padding: 0; margin: 0; }
+    .file-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      background: white;
+    }
+    .file-icon { margin-right: 12px; font-size: 18px; }
+    .file-info { flex: 1; min-width: 0; }
+    .file-name {
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .file-meta { font-size: 12px; color: #888; }
+    .file-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .file-actions button { padding: 6px 12px; font-size: 13px; }
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+    .status {
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    .status.info { background: #e7f1ff; color: #003a8c; }
+    .status.success { background: #e6f7e6; color: #1d5e1f; }
+    .status.error { background: #ffeaea; color: #8a1414; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    // ====== CONFIG ======
+    const ENCRYPTED_BLOB = "Zri8xo8NppS1cFMoAei24w==.nFefkQKC6LM6o0uS.gOUeu/F0lA3lEhIxMDgV+fUtm7xcJMqPg+21KJ0Zygk+++4LYxJxAgRTVl7/KqJZuAcaTV4xSdrRzy/1Go3OsQfhgnmQSZcCU3UDWlC+iVvWgRG0gBi/JwZS4pMY5nJVRrgb1gHDLon0CRYmwA0iZftTXvb0m99S0zJ96o7SQjzIE3JS9o4kUXJxZuZV4bCXg6Nq1EDNkobUe3ChjzjqtQQ=";
+    // ====================
+
+    const FILES_PATH = 'files'; // folder in the data repo where files live
+
+    // ===== Crypto =====
+    async function deriveKey(password, salt) {
+      const keyMaterial = await crypto.subtle.importKey(
+        'raw', new TextEncoder().encode(password),
+        { name: 'PBKDF2' }, false, ['deriveKey']
+      );
+      return crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt, iterations: 250000, hash: 'SHA-256' },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        false, ['encrypt', 'decrypt']
+      );
+    }
+    const b64encode = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)));
+    const b64decode = (str) => Uint8Array.from(atob(str), c => c.charCodeAt(0));
+
+    async function encryptString(plaintext, password) {
+      const salt = crypto.getRandomValues(new Uint8Array(16));
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const key = await deriveKey(password, salt);
+      const ct = await crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv }, key,
+        new TextEncoder().encode(plaintext)
+      );
+      return b64encode(salt) + '.' + b64encode(iv) + '.' + b64encode(ct);
+    }
+    async function decryptString(blob, password) {
+      const [s, i, c] = blob.split('.');
+      const key = await deriveKey(password, b64decode(s));
+      const pt = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv: b64decode(i) }, key, b64decode(c)
+      );
+      return new TextDecoder().decode(pt);
+    }
+
+    // ===== GitHub API =====
+    let creds = null; // { owner, repo, token }
+
+    async function gh(path, opts = {}) {
+      const res = await fetch(`https://api.github.com${path}`, {
+        ...opts,
+        headers: {
+          'Authorization': `Bearer ${creds.token}`,
+          'Accept': opts.accept || 'application/vnd.github+json',
+          ...(opts.headers || {})
+        }
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`GitHub ${res.status}: ${text.slice(0, 200)}`);
+      }
+      return res;
+    }
+
+    async function ghList() {
+      try {
+        const res = await gh(`/repos/${creds.owner}/${creds.repo}/contents/${FILES_PATH}`);
+        const data = await res.json();
+        return Array.isArray(data) ? data.filter(f => f.type === 'file') : [];
+      } catch (e) {
+        if (e.message.includes('404')) return [];
+        throw e;
+      }
+    }
+
+    async function ghGetSha(filename) {
+      try {
+        const res = await gh(`/repos/${creds.owner}/${creds.repo}/contents/${FILES_PATH}/${encodeURIComponent(filename)}`);
+        const data = await res.json();
+        return data.sha;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function ghUpload(filename, file) {
+      const buf = await file.arrayBuffer();
+      // Convert ArrayBuffer to base64 in chunks (avoid call stack overflow for big files)
+      const bytes = new Uint8Array(buf);
+      let binary = '';
+      const chunkSize = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+      }
+      const content = btoa(binary);
+
+      const sha = await ghGetSha(filename);
+      const body = {
+        message: `Upload ${filename}`,
+        content,
+        ...(sha ? { sha } : {})
+      };
+      await gh(`/repos/${creds.owner}/${creds.repo}/contents/${FILES_PATH}/${encodeURIComponent(filename)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    }
+
+    async function ghDownload(filename) {
+      const res = await gh(`/repos/${creds.owner}/${creds.repo}/contents/${FILES_PATH}/${encodeURIComponent(filename)}`, {
+        accept: 'application/vnd.github.v3.raw'
+      });
+      return res.blob();
+    }
+
+    async function ghDelete(filename, sha) {
+      await gh(`/repos/${creds.owner}/${creds.repo}/contents/${FILES_PATH}/${encodeURIComponent(filename)}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: `Delete ${filename}`, sha })
+      });
+    }
+
+    // ===== UI =====
+    const root = document.getElementById('root');
+
+    const isUnconfigured = ENCRYPTED_BLOB === 'REPLACE_WITH_ENCRYPTED_BLOB';
+    if (isUnconfigured || location.hash === '#setup') {
+      renderSetup();
+    } else {
+      renderUnlock();
+    }
+
+    function renderSetup() {
+      root.className = 'center';
+      root.innerHTML = `
+        <div class="box">
+          <div class="setup-banner">
+            <strong>Setup mode</strong><br>
+            Enter your GitHub details and pick a password. You will get an encrypted blob to paste into this file's source.
+          </div>
+          <input id="owner" type="text" placeholder="GitHub username (e.g. olekpoli)">
+          <input id="repo" type="text" placeholder="Private repo name (e.g. vault-files)">
+          <input id="token" type="password" placeholder="Fine-grained PAT (github_pat_...)">
+          <input id="pw" type="password" placeholder="Password (use a strong one)">
+          <button id="go" class="full-width">Generate encrypted blob</button>
+          <div id="out"></div>
+        </div>
+      `;
+      document.getElementById('go').onclick = async () => {
+        const owner = document.getElementById('owner').value.trim();
+        const repo = document.getElementById('repo').value.trim();
+        const token = document.getElementById('token').value.trim();
+        const pw = document.getElementById('pw').value;
+        if (!owner || !repo || !token || !pw) return;
+        const btn = document.getElementById('go');
+        btn.disabled = true;
+        btn.textContent = 'Encrypting...';
+        const payload = JSON.stringify({ owner, repo, token });
+        const blob = await encryptString(payload, pw);
+        btn.disabled = false;
+        btn.textContent = 'Generate encrypted blob';
+        document.getElementById('out').innerHTML = `
+          <p class="hint">Copy this and replace <code>REPLACE_WITH_ENCRYPTED_BLOB</code> in the source code. Commit and push.</p>
+          <pre id="blob">${blob}</pre>
+          <button class="secondary full-width" onclick="navigator.clipboard.writeText(document.getElementById('blob').textContent); this.textContent='Copied!'">Copy to clipboard</button>
+        `;
+      };
+    }
+
+    function renderUnlock() {
+      root.className = 'center';
+      root.innerHTML = `
+        <div class="box">
+          <h1>🔒 Vault</h1>
+          <input id="pw" type="password" placeholder="Password" autofocus>
+          <button id="go" class="full-width">Unlock</button>
+          <div class="error" id="err"></div>
+        </div>
+      `;
+      const submit = async () => {
+        const pw = document.getElementById('pw').value;
+        const err = document.getElementById('err');
+        const btn = document.getElementById('go');
+        err.textContent = '';
+        btn.disabled = true;
+        btn.textContent = 'Unlocking...';
+        try {
+          const payload = await decryptString(ENCRYPTED_BLOB, pw);
+          creds = JSON.parse(payload);
+          renderVault();
+        } catch (e) {
+          err.textContent = 'Wrong password';
+          document.getElementById('pw').value = '';
+          btn.disabled = false;
+          btn.textContent = 'Unlock';
+        }
+      };
+      document.getElementById('go').onclick = submit;
+      document.getElementById('pw').addEventListener('keydown', e => {
+        if (e.key === 'Enter') submit();
+      });
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+      return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+    }
+
+    function setStatus(msg, type = 'info') {
+      const el = document.getElementById('status');
+      if (!el) return;
+      if (!msg) { el.innerHTML = ''; return; }
+      el.innerHTML = `<div class="status ${type}">${msg}</div>`;
+    }
+
+    async function renderVault() {
+      root.className = '';
+      root.innerHTML = `
+        <div class="vault-container">
+          <div class="toolbar">
+            <h2>📁 ${creds.repo}</h2>
+            <div class="toolbar-actions">
+              <button class="secondary" id="refresh">Refresh</button>
+              <button class="secondary" id="lock">Lock</button>
+            </div>
+          </div>
+          <label class="upload-zone" id="dropzone">
+            <input type="file" id="file-input" multiple>
+            Drop files here or click to upload
+          </label>
+          <div id="status"></div>
+          <ul class="file-list" id="files"><li class="empty">Loading...</li></ul>
+        </div>
+      `;
+      document.getElementById('lock').onclick = () => {
+        creds = null;
+        renderUnlock();
+      };
+      document.getElementById('refresh').onclick = loadFiles;
+
+      const fileInput = document.getElementById('file-input');
+      const dropzone = document.getElementById('dropzone');
+      fileInput.onchange = (e) => handleFiles(e.target.files);
+      dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add('dragover'); };
+      dropzone.ondragleave = () => dropzone.classList.remove('dragover');
+      dropzone.ondrop = (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+      };
+
+      await loadFiles();
+    }
+
+    async function loadFiles() {
+      const list = document.getElementById('files');
+      list.innerHTML = '<li class="empty">Loading...</li>';
+      try {
+        const files = await ghList();
+        if (files.length === 0) {
+          list.innerHTML = '<li class="empty">No files yet. Upload something above.</li>';
+          return;
+        }
+        list.innerHTML = files.map(f => `
+          <li class="file-row" data-name="${escapeHtml(f.name)}" data-sha="${f.sha}">
+            <span class="file-icon">📄</span>
+            <div class="file-info">
+              <div class="file-name">${escapeHtml(f.name)}</div>
+              <div class="file-meta">${formatSize(f.size)}</div>
+            </div>
+            <div class="file-actions">
+              <button class="secondary" data-action="download">Download</button>
+              <button class="danger" data-action="delete">Delete</button>
+            </div>
+          </li>
+        `).join('');
+        list.querySelectorAll('button[data-action]').forEach(btn => {
+          btn.onclick = (e) => {
+            const row = e.target.closest('.file-row');
+            const name = row.dataset.name;
+            const sha = row.dataset.sha;
+            if (btn.dataset.action === 'download') downloadFile(name);
+            else if (btn.dataset.action === 'delete') deleteFile(name, sha);
+          };
+        });
+      } catch (e) {
+        list.innerHTML = `<li class="empty" style="color:#c00">Error: ${escapeHtml(e.message)}</li>`;
+      }
+    }
+
+    async function handleFiles(fileList) {
+      for (const file of fileList) {
+        if (file.size > 95 * 1024 * 1024) {
+          setStatus(`${file.name} is too large (max 95 MB)`, 'error');
+          continue;
+        }
+        setStatus(`Uploading ${file.name}...`, 'info');
+        try {
+          await ghUpload(file.name, file);
+          setStatus(`Uploaded ${file.name}`, 'success');
+        } catch (e) {
+          setStatus(`Upload failed: ${e.message}`, 'error');
+        }
+      }
+      await loadFiles();
+    }
+
+    async function downloadFile(name) {
+      setStatus(`Downloading ${name}...`, 'info');
+      try {
+        const blob = await ghDownload(name);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = name;
+        a.click();
+        URL.revokeObjectURL(url);
+        setStatus('', 'info');
+      } catch (e) {
+        setStatus(`Download failed: ${e.message}`, 'error');
+      }
+    }
+
+    async function deleteFile(name, sha) {
+      if (!confirm(`Delete ${name}?`)) return;
+      setStatus(`Deleting ${name}...`, 'info');
+      try {
+        await ghDelete(name, sha);
+        setStatus(`Deleted ${name}`, 'success');
+        await loadFiles();
+      } catch (e) {
+        setStatus(`Delete failed: ${e.message}`, 'error');
+      }
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+  </script>
+</body>
+</html>
