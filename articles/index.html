@@ -1,0 +1,33 @@
+---
+layout: base
+title: Articles
+description: Short notes on what I'm learning about funds, data and projects.
+---
+<div class="hero" style="padding-bottom:0">
+  <h1 data-i18n="list.h">Articles</h1>
+  <p class="lede" data-i18n="list.intro">Short notes on what I’m learning: funds, data, projects.</p>
+</div>
+{% assign tagnames = "" | split: "" %}{% for t in site.tags %}{% assign tagnames = tagnames | push: t[0] %}{% endfor %}{% assign tagnames = tagnames | sort_natural %}
+{% if tagnames.size > 0 %}
+<ul class="tags tag-filter" aria-label="Filter by tag">
+  <li><a href="{{ '/articles/' | relative_url }}" data-filter="" data-i18n="list.all">All</a></li>
+  {% for t in tagnames %}<li><a href="?tag={{ t | slugify }}" data-filter="{{ t | slugify }}">#{{ t }}</a></li>{% endfor %}
+</ul>
+{% endif %}
+<section style="padding-top:1.5rem" id="list">
+{% if site.posts.size == 0 %}
+  <p class="intro" data-i18n="list.empty">The first article is on its way.</p>
+{% endif %}
+{% for post in site.posts %}
+  {% assign words = post.content | number_of_words %}{% assign mins = words | divided_by: 200 | plus: 1 %}
+  <a class="card" href="{{ post.url | relative_url }}" data-tags="{% for t in post.tags %}{{ t | slugify }} {% endfor %}">
+    <div>
+      <p class="meta"><span data-date="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%-d %B %Y' }}</span>, <span data-min="{{ mins }}">{{ mins }} min read</span>{% if post.lang == 'fr' %}<span class="tag">FR</span>{% endif %}</p>
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.description | default: post.excerpt | strip_html | truncate: 170 }}</p>
+      {% if post.tags.size > 0 %}<p class="card-tags">{% for t in post.tags %}#{{ t }} {% endfor %}</p>{% endif %}
+    </div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>
+  </a>
+{% endfor %}
+</section>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="Helvetica, Arial, sans-serif">
+  <rect width="960" height="560" rx="28" fill="#F7F7F5"/>
+  <text x="48" y="70" font-size="30" font-weight="700" fill="#18181B">Luxembourg fund map</text>
+  <text x="48" y="104" font-size="18" fill="#66666D">Main regimes and who supervises them</text>
+
+  <g font-size="15" fill="#66666D">
+    <rect x="600" y="52" width="18" height="18" rx="5" fill="#2F54C9"/><text x="628" y="66">CSSF supervises the fund</text>
+    <rect x="600" y="82" width="18" height="18" rx="5" fill="#FFFFFF" stroke="#2F54C9" stroke-width="2" stroke-dasharray="4 3"/><text x="628" y="96">Supervised via its AIFM only</text>
+  </g>
+
+  <g stroke="#C9C9C4" stroke-width="2" fill="none">
+    <path d="M480 175 V205 H180 V235"/><path d="M480 205 H780 V235"/>
+    <path d="M780 300 V330 H330 V360"/><path d="M780 330 H630 V360"/>
+    <path d="M630 330 H480 V360"/><path d="M780 330 V360"/>
+  </g>
+
+  <rect x="380" y="130" width="200" height="45" rx="12" fill="#18181B"/>
+  <text x="480" y="159" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle">Luxembourg fund</text>
+
+  <rect x="60" y="235" width="240" height="65" rx="14" fill="#2F54C9"/>
+  <text x="180" y="263" font-size="20" font-weight="700" fill="#FFFFFF" text-anchor="middle">UCITS</text>
+  <text x="180" y="286" font-size="14" fill="#DCE3FA" text-anchor="middle">Part I, Law of 17 Dec 2010</text>
+
+  <rect x="660" y="235" width="240" height="65" rx="14" fill="#18181B"/>
+  <text x="780" y="263" font-size="20" font-weight="700" fill="#FFFFFF" text-anchor="middle">AIF</text>
+  <text x="780" y="286" font-size="14" fill="#B9B9C0" text-anchor="middle">AIFM Law of 12 July 2013</text>
+
+  <g font-size="17" font-weight="700" text-anchor="middle">
+    <rect x="250" y="360" width="160" height="80" rx="14" fill="#2F54C9"/>
+    <text x="330" y="395" fill="#FFF">Part II UCI</text><text x="330" y="420" font-size="13" font-weight="400" fill="#DCE3FA">Law of 2010</text>
+    <rect x="420" y="360" width="120" height="80" rx="14" fill="#2F54C9"/>
+    <text x="480" y="395" fill="#FFF">SIF</text><text x="480" y="420" font-size="13" font-weight="400" fill="#DCE3FA">Law of 2007</text>
+    <rect x="560" y="360" width="140" height="80" rx="14" fill="#2F54C9"/>
+    <text x="630" y="395" fill="#FFF">SICAR</text><text x="630" y="420" font-size="13" font-weight="400" fill="#DCE3FA">Law of 2004</text>
+    <rect x="720" y="360" width="120" height="80" rx="14" fill="#FFFFFF" stroke="#2F54C9" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="780" y="395" fill="#2F54C9">RAIF</text><text x="780" y="420" font-size="13" font-weight="400" fill="#66666D">Law of 2016</text>
+  </g>
+  <text x="48" y="490" font-size="15" fill="#66666D">Partnerships such as the SCSp can be used on their own or as the legal form of a SIF, SICAR or RAIF.</text>
+  <text x="48" y="530" font-size="14" fill="#8A8A90">Simplified overview. Oleksandr Polishchuk, olekpoli.github.io</text>
+</svg>

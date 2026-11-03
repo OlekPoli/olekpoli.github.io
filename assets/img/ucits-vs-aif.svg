@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="Helvetica, Arial, sans-serif">
+  <rect width="960" height="520" rx="28" fill="#F7F7F5"/>
+  <text x="48" y="70" font-size="30" font-weight="700" fill="#18181B">Two families of EU funds</text>
+  <text x="48" y="104" font-size="18" fill="#66666D">What the rules focus on, in one picture</text>
+
+  <g transform="translate(48,140)">
+    <rect width="420" height="330" rx="20" fill="#FFFFFF" stroke="#E0E0DB" stroke-width="2"/>
+    <rect width="420" height="70" rx="20" fill="#2F54C9"/>
+    <rect y="40" width="420" height="30" fill="#2F54C9"/>
+    <text x="28" y="45" font-size="26" font-weight="700" fill="#FFFFFF">UCITS</text>
+    <text x="392" y="45" font-size="16" fill="#DCE3FA" text-anchor="end">Directive 2009/65/EC</text>
+    <g font-size="18" fill="#18181B">
+      <text x="28" y="118">Who invests</text><text x="392" y="118" text-anchor="end" fill="#2F54C9" font-weight="700">Anyone, incl. retail</text>
+      <text x="28" y="168">What is regulated</text><text x="392" y="168" text-anchor="end" fill="#2F54C9" font-weight="700">The fund product</text>
+      <text x="28" y="218">Assets</text><text x="392" y="218" text-anchor="end" fill="#2F54C9" font-weight="700">Liquid, listed</text>
+      <text x="28" y="268">Diversification</text><text x="392" y="268" text-anchor="end" fill="#2F54C9" font-weight="700">5/10/40 rule</text>
+      <text x="28" y="314">EU marketing</text><text x="392" y="314" text-anchor="end" fill="#2F54C9" font-weight="700">Product passport</text>
+    </g>
+    <g stroke="#EEEEEA" stroke-width="2"><line x1="28" x2="392" y1="140" y2="140"/><line x1="28" x2="392" y1="190" y2="190"/><line x1="28" x2="392" y1="240" y2="240"/><line x1="28" x2="392" y1="288" y2="288"/></g>
+  </g>
+
+  <g transform="translate(492,140)">
+    <rect width="420" height="330" rx="20" fill="#FFFFFF" stroke="#E0E0DB" stroke-width="2"/>
+    <rect width="420" height="70" rx="20" fill="#18181B"/>
+    <rect y="40" width="420" height="30" fill="#18181B"/>
+    <text x="28" y="45" font-size="26" font-weight="700" fill="#FFFFFF">AIF</text>
+    <text x="392" y="45" font-size="16" fill="#B9B9C0" text-anchor="end">Directive 2011/61/EU</text>
+    <g font-size="18" fill="#18181B">
+      <text x="28" y="118">Who invests</text><text x="392" y="118" text-anchor="end" font-weight="700">Mostly professionals</text>
+      <text x="28" y="168">What is regulated</text><text x="392" y="168" text-anchor="end" font-weight="700">The manager (AIFM)</text>
+      <text x="28" y="218">Assets</text><text x="392" y="218" text-anchor="end" font-weight="700">PE, real estate, debt…</text>
+      <text x="28" y="268">Diversification</text><text x="392" y="268" text-anchor="end" font-weight="700">Set by fund rules</text>
+      <text x="28" y="314">EU marketing</text><text x="392" y="314" text-anchor="end" font-weight="700">Manager passport</text>
+    </g>
+    <g stroke="#EEEEEA" stroke-width="2"><line x1="28" x2="392" y1="140" y2="140"/><line x1="28" x2="392" y1="190" y2="190"/><line x1="28" x2="392" y1="240" y2="240"/><line x1="28" x2="392" y1="288" y2="288"/></g>
+  </g>
+  <text x="48" y="500" font-size="14" fill="#8A8A90">Simplified overview. Oleksandr Polishchuk, olekpoli.github.io</text>
+</svg>

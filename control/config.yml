@@ -1,0 +1,30 @@
+backend:
+  name: github
+  repo: OlekPoli/olekpoli.github.io
+  branch: main   # change to master if your repo uses master
+
+site_url: https://olekpoli.github.io
+display_url: https://olekpoli.github.io
+
+media_folder: assets/img
+public_folder: /assets/img
+
+collections:
+  - name: posts
+    label: Articles
+    label_singular: Article
+    folder: _posts
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "articles/{{slug}}/"
+    summary: "{{title}}  ({{lang}})"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: description, label: Short summary (lists and LinkedIn previews), widget: text, required: false }
+      - { name: date, label: Date, widget: datetime }
+      - { name: lang, label: Language, widget: select, options: [en, fr], default: en }
+      - { name: tags, label: Tags, widget: list, required: false, hint: "e.g. UCITS, Luxembourg, Data" }
+      - { name: image, label: Cover image (optional), widget: image, required: false }
+      - { name: published, label: Published, widget: boolean, default: true }
+      - { name: body, label: Text, widget: markdown }
