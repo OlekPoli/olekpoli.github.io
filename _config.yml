@@ -1,0 +1,21 @@
+title: Oleksandr Polishchuk
+description: Business and IT profile, open to roles in Luxembourg and Paris.
+url: "https://olekpoli.github.io"
+baseurl: ""
+permalink: /articles/:title/
+markdown: kramdown
+plugins:
+  - jekyll-feed
+feed:
+  path: feed.xml
+exclude:
+  - HOW-TO-WRITE.md
+  - README.md
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+include:
+  - control
